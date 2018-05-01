@@ -17,7 +17,7 @@ import java.io.Writer;
  * @author 范文武
  * @date 2018/04/27 09:46
  */
-@Scope("prototype")
+//@Scope("prototype")
 public abstract class BaseController {
     protected Logger logger = Logger.getLogger(this.getClass());
     protected HttpServletRequest request = null;
@@ -52,7 +52,7 @@ public abstract class BaseController {
         return result;
     }
 
-    public abstract Result getResult();
+    public Result getResult() {return new Result();};
 
     public void send(Result result) {
         this.logger.info(result.getContent());

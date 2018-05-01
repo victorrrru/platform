@@ -4,6 +4,7 @@ import lombok.Data;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.poi.ss.formula.functions.T;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -33,6 +34,10 @@ public class Result implements Serializable{
     private int code;
     private String msg;
 
+    public <X> X getData() {
+        return (X) this.data;
+    }
+
     public Result() {
         this.code = CODE_OK;
         this.msg = "操作成功";
@@ -52,7 +57,7 @@ public class Result implements Serializable{
         return this;
     }
 
-    public Result Mock(Object data) {
+    public Result Mock(T data) {
         this.code = CODE_MOCK;
         this.msg = "当前服务无法正常响应请求";
         this.data = data;
@@ -80,27 +85,27 @@ public class Result implements Serializable{
         return this;
     }
 
-    public Result NO(int code, String msg, Object data) {
+    public Result NO(int code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
         return this;
     }
 
-    public Result Mock(String msg, Object data) {
+    public Result Mock(String msg, T data) {
         this.code = CODE_MOCK;
         this.msg = msg;
         this.data = data;
         return this;
     }
 
-    public Result OK(Object data) {
+    public Result OK(T data) {
         this.code = CODE_OK;
         this.data = data;
         return this;
     }
 
-    public Result OK(String msg, Object data) {
+    public Result OK(String msg, T data) {
         this.code = CODE_OK;
         this.msg = msg;
         this.data = data;
@@ -183,11 +188,11 @@ public class Result implements Serializable{
         } else if(StringUtils.contains(StringUtils.trimToEmpty(this.getRequstURL(request)).toLowerCase(), "password")) {
             return "[密码相关请求不记录参数]";
         } else {
-            Map map = new HashMap();
-            Enumeration paramNames = request.getParameterNames();
+            Map<String, String> map = new HashMap<>();
+            Enumeration<String> paramNames = request.getParameterNames();
 
             while(paramNames.hasMoreElements()) {
-                String paramName = (String)paramNames.nextElement();
+                String paramName = paramNames.nextElement();
                 String[] paramValues = request.getParameterValues(paramName);
                 if(paramValues.length == 1) {
                     String paramValue = StringUtil.cleanSpecialChar(paramValues[0]);
@@ -259,7 +264,7 @@ public class Result implements Serializable{
         return new ReturnDTO(this.getCode(), this.getMsg(), this.getData());
     }
 
-    public void setDTO(int code, String msg, Object data) {
+    public void setDTO(int code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
