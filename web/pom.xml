@@ -12,7 +12,7 @@
     <artifactId>web</artifactId>
     <packaging>war</packaging>
 
-    <name>web Maven Webapp</name>
+    <name>web</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
@@ -77,7 +77,7 @@
                     <contextPath>/</contextPath>
                     <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                            <port>8280</port>
+                            <port>8680</port>
                         </connector>
                     </connectors>
                 </configuration>
