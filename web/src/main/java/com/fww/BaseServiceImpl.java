@@ -1,5 +1,7 @@
 package com.fww;
 
+import com.fww.platform.FunctionException;
+
 import java.util.ArrayList;
 import java.util.List;
 

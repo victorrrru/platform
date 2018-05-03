@@ -1,7 +1,7 @@
 package com.fww.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.fww.FunctionException;
+import com.fww.platform.FunctionException;
 import com.fww.PO.DemoPO;
 import org.springframework.stereotype.Repository;
 

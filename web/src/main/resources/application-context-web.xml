@@ -8,7 +8,7 @@
                 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
     <context:component-scan base-package="com.fww"/>
     <mvc:annotation-driven />
-    <bean id="diamondClient" class="com.fww.DiamondClient" init-method="init" />
+    <bean id="diamondClient" class="com.fww.diamond.DiamondClient" init-method="init" />
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
             <list>
@@ -17,14 +17,14 @@
         </property>
     </bean>
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://120.77.173.16:3306/oms_loan?useUnicode=true" />
-        <property name="username" value="root" />
-        <property name="password" value="123456" />
-        <!--<property name="maxActive" value="${dbcp.maxActive}"/>-->
-        <!--<property name="minIdle" value="${dbcp.minIdle}"/>-->
-        <!-- 配置获取连接等待超时的时间 -->
-        <!--<property name="maxWait" value="${dbcp.maxWait}"/>-->
+        <property name="driverClassName" value="${jdbc.driver}" />
+        <property name="url" value="${master.jdbc.url}" />
+        <property name="username" value="${master.jdbc.username}" />
+        <property name="password" value="${master.jdbc.password}" />
+        <property name="maxActive" value="${dbcp.maxActive}"/>
+        <property name="minIdle" value="${dbcp.minIdle}"/>
+         <!--配置获取连接等待超时的时间-->
+        <property name="maxWait" value="${dbcp.maxWait}"/>
         <property name="initialSize" value="5"/>
         <property name="defaultAutoCommit" value="true"/>
         <property name="testWhileIdle" value="true"/>
@@ -32,10 +32,10 @@
         <property name="testOnReturn" value="true"/>
         <property name="validationQuery" value="SELECT 1"/>
         <property name="validationQueryTimeout" value="1"/>
-        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-        <!--<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}" />-->
-        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-        <!--<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}" />-->
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒-->
+        <property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}" />
+         <!--配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒-->
+        <property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}" />
     </bean>
 
     <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
@@ -92,5 +92,7 @@
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
+
+    <import resource="applicationContext-redis.xml" />
 
 </beans>

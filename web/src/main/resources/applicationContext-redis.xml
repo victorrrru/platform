@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="  
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="${redis.maxTotal}" />
+		<property name="maxIdle" value="${redis.maxIdle}" />
+		<property name="minIdle" value="${redis.minIdle}" />
+		<property name="timeBetweenEvictionRunsMillis" value="${redis.timeBetweenEvictionRunsMillis}" />
+		<property name="minEvictableIdleTimeMillis" value="${redis.minEvictableIdleTimeMillis}" />
+		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
+	</bean>
+	
+	
+
+	<!--<bean id="redisSentinelConfiguration"
+		class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
+		<property name="master">
+			<bean class="org.springframework.data.redis.connection.RedisNode">
+				<property name="name" value="r2"></property>
+			</bean>
+		</property>
+
+		<property name="sentinels">
+			<set>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redis.host}"></constructor-arg>
+					<constructor-arg name="port" value="${redis.port}"></constructor-arg>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redisNode1.host}"></constructor-arg>
+					<constructor-arg name="port" value="${redis.port1}"></constructor-arg>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redisNode2.host}"></constructor-arg>
+					<constructor-arg name="port" value="${redis.port2}"></constructor-arg>
+				</bean>
+			</set>
+		</property>
+	</bean>-->
+	
+	<!--<bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool">
+        <constructor-arg index="0" ref="jedisPoolConfig" />  
+        <constructor-arg index="1">  
+            <list>  
+               <bean name="master" class="redis.clients.jedis.JedisShardInfo">   
+                    <constructor-arg name="host" value="${redis.host}" />   
+                    <constructor-arg name="port" value="${redis.port}" />
+                    <constructor-arg name="timeout" value="${redis.timeout}" />   
+                </bean>
+                <bean name="slaver" class="redis.clients.jedis.JedisShardInfo">  
+                    <constructor-arg name="host" value="${redisNode1.host}" />  
+                    <constructor-arg name="port" value="${redis.port1}"/> 
+                    <constructor-arg name="timeout" value="${redis.timeout}" /> 
+                </bean>
+                <bean name="slaver" class="redis.clients.jedis.JedisShardInfo">  
+                    <constructor-arg name="host" value="${redisNode2.host}" />  
+                    <constructor-arg name="port" value="${redis.port2}"/>
+                    <constructor-arg name="timeout" value="${redis.timeout}" />  
+                </bean>   
+            </list>  
+        </constructor-arg>  
+    </bean> -->
+	
+	<!--<bean id="shardedJedisService" clacom.fww.redis.ShardedJedisServicevice">
+		<property name="shardedJedisPool" ref="shardedJedisPool" />
+	</bean>-->
+
+	<bean id="jeidsConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<!--<constructor-arg ref="redisSentinelConfiguration" />-->
+		<property name="poolConfig" ref="jedisPoolConfig" />
+		<property name="timeout" value="${redis.timeout}" />
+
+		<property name="hostName" value="${redis.host}" />
+		<property name="port" value="${redis.port}" />
+		<property name="password" value="${redis.pwd}" />
+		<property name="usePool" value="true" />
+	</bean>
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+		p:connection-factory-ref="jeidsConnectionFactory" />
+
+	<bean id="redisService" class="com.fww.redis.RedisSlave">
+		<property name="redistemplate" ref="redisTemplate" />
+	</bean> 
+	
+
+</beans> 

@@ -1,8 +1,8 @@
 package com.fww.service;
 
 import com.fww.DemoVO;
-import com.fww.FunctionException;
-import com.fww.Result;
+import com.fww.platform.FunctionException;
+import com.fww.result.Result;
 
 /**
  * 服务类

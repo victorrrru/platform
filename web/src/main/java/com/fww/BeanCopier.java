@@ -1,5 +1,6 @@
 package com.fww;
 
+import com.fww.utils.ClassUtil;
 import net.sf.cglib.core.Converter;
 
 import java.util.Map;
