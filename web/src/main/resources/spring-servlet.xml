@@ -10,7 +10,7 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"/>
     </context:component-scan>
-    <mvc:annotation-driven />
+    <!--<mvc:annotation-driven />-->
 
     <!-- swagger2 -->
     <bean class="com.fww.SwaggerConfig"/>
