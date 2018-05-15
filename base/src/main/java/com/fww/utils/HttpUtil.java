@@ -66,7 +66,7 @@ public class HttpUtil {
             HttpClientParams.setCookiePolicy(httpClient.getParams(), "compatibility");
             httpClient.setRedirectStrategy(new LaxRedirectStrategy());
             SSLContext sslcontext = SSLContext.getInstance("TLS");
-            sslcontext.init((KeyManager[])null, new TrustManager[]{new X509TrustManager() {
+            sslcontext.init((KeyManager[]) null, new TrustManager[]{new X509TrustManager() {
                 public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
                 }
 
@@ -76,7 +76,7 @@ public class HttpUtil {
                 public X509Certificate[] getAcceptedIssuers() {
                     return null;
                 }
-            }}, (SecureRandom)null);
+            }}, (SecureRandom) null);
             SSLSocketFactory sf = new SSLSocketFactory(sslcontext);
             sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
             Scheme sch = new Scheme("https", 443, sf);
@@ -93,20 +93,19 @@ public class HttpUtil {
     public static String getPostContent(String url, Map<String, String> formEntity, String charset) {
         try {
             HttpPost httpPost = new HttpPost(url);
-            List<NameValuePair> nvps = new ArrayList();
-            Iterator var5 = formEntity.entrySet().iterator();
+            List<NameValuePair> nvps = new ArrayList<>();
 
-            while(var5.hasNext()) {
-                Map.Entry<String, String> entity = (Map.Entry)var5.next();
-                nvps.add(new BasicNameValuePair((String)entity.getKey(), (String)entity.getValue()));
+            for (Map.Entry<String, String> entity : formEntity.entrySet()) {
+                nvps.add(new BasicNameValuePair(entity.getKey(), entity.getValue()));
             }
 
             httpPost.setHeader("User-Agent", "Http_Client_4.2");
             httpPost.setEntity(new UrlEncodedFormEntity(nvps, charset));
             HttpResponse response = httpClient.execute(httpPost);
             String content = null;
-            if(response.getEntity() != null) {
-                charset = EntityUtils.getContentCharSet(response.getEntity()) == null?charset:EntityUtils.getContentCharSet(response.getEntity());
+            if (response.getEntity() != null) {
+                charset = EntityUtils.getContentCharSet(response.getEntity()) == null ? charset :
+                        EntityUtils.getContentCharSet(response.getEntity());
                 content = new String(EntityUtils.toByteArray(response.getEntity()), charset);
             }
 
@@ -121,19 +120,17 @@ public class HttpUtil {
     public static String getPostContent(String url, Map<String, String> headerEntity, String dataStr, String charset) {
         try {
             HttpPost httpPost = new HttpPost(url);
-            Iterator var5 = headerEntity.entrySet().iterator();
 
-            while(var5.hasNext()) {
-                Map.Entry<String, String> entity = (Map.Entry)var5.next();
-                httpPost.addHeader((String)entity.getKey(), (String)entity.getValue());
+            for (Map.Entry<String, String> entity : headerEntity.entrySet()) {
+                httpPost.addHeader(entity.getKey(), entity.getValue());
             }
 
             httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36");
             httpPost.setEntity(new StringEntity(dataStr, Charset.forName(charset)));
             HttpResponse response = httpClient.execute(httpPost);
             String content = null;
-            if(response.getEntity() != null) {
-                charset = EntityUtils.getContentCharSet(response.getEntity()) == null?charset:EntityUtils.getContentCharSet(response.getEntity());
+            if (response.getEntity() != null) {
+                charset = EntityUtils.getContentCharSet(response.getEntity()) == null ? charset : EntityUtils.getContentCharSet(response.getEntity());
                 content = new String(EntityUtils.toByteArray(response.getEntity()), charset);
             }
 
@@ -148,19 +145,17 @@ public class HttpUtil {
     public static byte[] getPostStream(String url, Map<String, String> formEntity, String charset) {
         try {
             HttpPost httpPost = new HttpPost(url);
-            List<NameValuePair> nvps = new ArrayList();
-            Iterator var5 = formEntity.entrySet().iterator();
+            List<NameValuePair> nvps = new ArrayList<>();
 
-            while(var5.hasNext()) {
-                Map.Entry<String, String> entity = (Map.Entry)var5.next();
-                nvps.add(new BasicNameValuePair((String)entity.getKey(), (String)entity.getValue()));
+            for (Map.Entry<String, String> entity : formEntity.entrySet()) {
+                nvps.add(new BasicNameValuePair(entity.getKey(), entity.getValue()));
             }
 
             httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36");
             httpPost.setEntity(new UrlEncodedFormEntity(nvps, charset));
             HttpResponse response = httpClient.execute(httpPost);
             byte[] content = null;
-            if(response.getEntity() != null) {
+            if (response.getEntity() != null) {
                 content = EntityUtils.toByteArray(response.getEntity());
             }
 
@@ -176,14 +171,12 @@ public class HttpUtil {
         try {
             HttpPost httpPost = new HttpPost(url);
             MultipartEntity reqEntity = new MultipartEntity();
-            Iterator var5 = formEntity.entrySet().iterator();
 
-            while(var5.hasNext()) {
-                Map.Entry<String, Object> entity = (Map.Entry)var5.next();
-                if(entity.getValue() instanceof File) {
-                    reqEntity.addPart((String)entity.getKey(), new FileBody((File)entity.getValue()));
+            for (Map.Entry<String, Object> entity : formEntity.entrySet()) {
+                if (entity.getValue() instanceof File) {
+                    reqEntity.addPart(entity.getKey(), new FileBody((File) entity.getValue()));
                 } else {
-                    reqEntity.addPart((String)entity.getKey(), new StringBody(entity.getValue().toString(), Charset.forName(CHARSET)));
+                    reqEntity.addPart(entity.getKey(), new StringBody(entity.getValue().toString(), Charset.forName(CHARSET)));
                 }
             }
 
@@ -191,7 +184,7 @@ public class HttpUtil {
             httpPost.setEntity(reqEntity);
             HttpResponse response = httpClient.execute(httpPost);
             byte[] content = null;
-            if(response.getEntity() != null) {
+            if (response.getEntity() != null) {
                 content = EntityUtils.toByteArray(response.getEntity());
             }
 
@@ -210,8 +203,8 @@ public class HttpUtil {
             httpPost.setEntity(new ByteArrayEntity(data));
             HttpResponse response = httpClient.execute(httpPost);
             String content = null;
-            if(response.getEntity() != null) {
-                charset = EntityUtils.getContentCharSet(response.getEntity()) == null?charset:EntityUtils.getContentCharSet(response.getEntity());
+            if (response.getEntity() != null) {
+                charset = EntityUtils.getContentCharSet(response.getEntity()) == null ? charset : EntityUtils.getContentCharSet(response.getEntity());
                 content = new String(EntityUtils.toByteArray(response.getEntity()), charset);
             }
 
@@ -229,8 +222,8 @@ public class HttpUtil {
             httpGet.setHeader("User-Agent", UA);
             HttpResponse response = httpClient.execute(httpGet);
             String content = null;
-            if(response.getEntity() != null) {
-                CHARSET = EntityUtils.getContentCharSet(response.getEntity()) == null?CHARSET:EntityUtils.getContentCharSet(response.getEntity());
+            if (response.getEntity() != null) {
+                CHARSET = EntityUtils.getContentCharSet(response.getEntity()) == null ? CHARSET : EntityUtils.getContentCharSet(response.getEntity());
                 content = new String(EntityUtils.toByteArray(response.getEntity()), CHARSET);
             }
 
@@ -247,22 +240,20 @@ public class HttpUtil {
             HttpPost httpPost = new HttpPost(url);
             httpPost.setHeader("User-Agent", UA);
             MultipartEntity reqEntity = new MultipartEntity();
-            Iterator var4 = formEntity.entrySet().iterator();
 
-            while(var4.hasNext()) {
-                Map.Entry<String, Object> entity = (Map.Entry)var4.next();
-                if(entity.getValue() instanceof File) {
-                    reqEntity.addPart((String)entity.getKey(), new FileBody((File)entity.getValue()));
+            for (Map.Entry<String, Object> entity : formEntity.entrySet()) {
+                if (entity.getValue() instanceof File) {
+                    reqEntity.addPart(entity.getKey(), new FileBody((File) entity.getValue()));
                 } else {
-                    reqEntity.addPart((String)entity.getKey(), new StringBody(entity.getValue().toString(), Charset.forName(CHARSET)));
+                    reqEntity.addPart(entity.getKey(), new StringBody(entity.getValue().toString(), Charset.forName(CHARSET)));
                 }
             }
 
             httpPost.setEntity(reqEntity);
             HttpResponse response = httpClient.execute(httpPost);
             String content = null;
-            if(response.getEntity() != null) {
-                CHARSET = EntityUtils.getContentCharSet(response.getEntity()) == null?CHARSET:EntityUtils.getContentCharSet(response.getEntity());
+            if (response.getEntity() != null) {
+                CHARSET = EntityUtils.getContentCharSet(response.getEntity()) == null ? CHARSET : EntityUtils.getContentCharSet(response.getEntity());
                 content = new String(EntityUtils.toByteArray(response.getEntity()), CHARSET);
             }
 
@@ -279,14 +270,12 @@ public class HttpUtil {
             HttpPost httpPost = new HttpPost(url);
             httpPost.setHeader("User-Agent", UA);
             MultipartEntity reqEntity = new MultipartEntity();
-            Iterator var6 = formEntity.entrySet().iterator();
 
-            while(var6.hasNext()) {
-                Map.Entry<String, Object> entity = (Map.Entry)var6.next();
-                if(entity.getValue() instanceof File) {
-                    reqEntity.addPart((String)entity.getKey(), new FileBody((File)entity.getValue()));
+            for (Map.Entry<String, Object> entity : formEntity.entrySet()) {
+                if (entity.getValue() instanceof File) {
+                    reqEntity.addPart(entity.getKey(), new FileBody((File) entity.getValue()));
                 } else {
-                    reqEntity.addPart((String)entity.getKey(), new StringBody(entity.getValue().toString(), Charset.forName(CHARSET)));
+                    reqEntity.addPart(entity.getKey(), new StringBody(entity.getValue().toString(), Charset.forName(CHARSET)));
                 }
             }
 
@@ -295,8 +284,8 @@ public class HttpUtil {
             httpClient.getParams().setIntParameter("http.connection.timeout", connectionTimeout);
             HttpResponse response = httpClient.execute(httpPost);
             String content = null;
-            if(response.getEntity() != null) {
-                CHARSET = EntityUtils.getContentCharSet(response.getEntity()) == null?CHARSET:EntityUtils.getContentCharSet(response.getEntity());
+            if (response.getEntity() != null) {
+                CHARSET = EntityUtils.getContentCharSet(response.getEntity()) == null ? CHARSET : EntityUtils.getContentCharSet(response.getEntity());
                 content = new String(EntityUtils.toByteArray(response.getEntity()), CHARSET);
             }
 
@@ -311,8 +300,8 @@ public class HttpUtil {
     public static void main(String[] args) {
         long time = System.currentTimeMillis();
         String aesData = AESUtil.encrypt("demo," + time, "7D92AC6DE5D04C9D5E25667D8AF6A99B");
-        String url = "http://localhost:8080/diamond-server/ws.do?method=findSysMenuAll&code=" + aesData + "&data=" + AESUtil.encrypt("demo", "7D92AC6DE5D04C9D5E25667D8AF6A99B");
-        Map<String, Object> formEntity = new HashMap();
+        String url = "http://a.b.c:8080/diamond-server/ws.do?method=findSysMenuAll&code=" + aesData + "&data=" + AESUtil.encrypt("demo", "7D92AC6DE5D04C9D5E25667D8AF6A99B");
+        Map<String, Object> formEntity = new HashMap<>();
         formEntity.put("data", AESUtil.encrypt("demo", "7D92AC6DE5D04C9D5E25667D8AF6A99B"));
         formEntity.put("code", aesData);
         String result = postContent(url, formEntity);
