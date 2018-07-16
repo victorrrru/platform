@@ -5,8 +5,6 @@ import lombok.Data;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.poi.ss.formula.functions.T;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.net.InetAddress;
@@ -58,7 +56,7 @@ public class Result implements Serializable{
         return this;
     }
 
-    public Result Mock(T data) {
+    public Result Mock(Object data) {
         this.code = CODE_MOCK;
         this.msg = "当前服务无法正常响应请求";
         this.data = data;
@@ -86,27 +84,27 @@ public class Result implements Serializable{
         return this;
     }
 
-    public Result NO(int code, String msg, T data) {
+    public Result NO(int code, String msg, Object data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
         return this;
     }
 
-    public Result Mock(String msg, T data) {
+    public Result Mock(String msg, Object data) {
         this.code = CODE_MOCK;
         this.msg = msg;
         this.data = data;
         return this;
     }
 
-    public Result OK(T data) {
+    public Result OK(Object data) {
         this.code = CODE_OK;
         this.data = data;
         return this;
     }
 
-    public Result OK(String msg, T data) {
+    public Result OK(String msg, Object data) {
         this.code = CODE_OK;
         this.msg = msg;
         this.data = data;
@@ -265,7 +263,7 @@ public class Result implements Serializable{
         return new ReturnDTO(this.getCode(), this.getMsg(), this.getData());
     }
 
-    public void setDTO(int code, String msg, T data) {
+    public void setDTO(int code, String msg, Object data) {
         this.code = code;
         this.msg = msg;
         this.data = data;

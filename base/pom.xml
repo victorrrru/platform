@@ -221,6 +221,12 @@
             <artifactId>httpmime</artifactId>
             <version>4.2.1</version>
         </dependency>
+        <!--Caused by: java.lang.NoClassDefFoundError: org/apache/commons/httpclient/HttpConnectionManager-->
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
         <!--lombok包-->
         <dependency>
             <groupId>org.projectlombok</groupId>

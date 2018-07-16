@@ -17,7 +17,7 @@ import java.util.concurrent.Executor;
 public class BasePropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
     private long timeOut = 5000L;
     private static Properties properties = new Properties();
-    private static String DEF_DEMAIN_LIST = "a.b.c";
+    private static String DEF_DEMAIN_LIST = "a.a.a";
     private static int DEF_PORT = 8080;
 
     public BasePropertyPlaceholderConfigurer() {
