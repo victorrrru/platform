@@ -1,6 +1,6 @@
 package com.fww.utils;
 
-import com.taobao.diamond.test.AESUtil;
+//import com.taobao.diamond.test.AESUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -298,14 +298,14 @@ public class HttpUtil {
     }
 
     public static void main(String[] args) {
-        long time = System.currentTimeMillis();
-        String aesData = AESUtil.encrypt("demo," + time, "7D92AC6DE5D04C9D5E25667D8AF6A99B");
-        String url = "http://a.b.c:8080/diamond-server/ws.do?method=findSysMenuAll&code=" + aesData + "&data=" + AESUtil.encrypt("demo", "7D92AC6DE5D04C9D5E25667D8AF6A99B");
-        Map<String, Object> formEntity = new HashMap<>();
-        formEntity.put("data", AESUtil.encrypt("demo", "7D92AC6DE5D04C9D5E25667D8AF6A99B"));
-        formEntity.put("code", aesData);
-        String result = postContent(url, formEntity);
-        System.out.println("===post====result:" + result);
+        //long time = System.currentTimeMillis();
+        //String aesData = AESUtil.encrypt("demo," + time, "7D92AC6DE5D04C9D5E25667D8AF6A99B");
+        //String url = "http://a.b.c:8080/diamond-server/ws.do?method=findSysMenuAll&code=" + aesData + "&data=" + AESUtil.encrypt("demo", "7D92AC6DE5D04C9D5E25667D8AF6A99B");
+        //Map<String, Object> formEntity = new HashMap<>();
+        //formEntity.put("data", AESUtil.encrypt("demo", "7D92AC6DE5D04C9D5E25667D8AF6A99B"));
+        //formEntity.put("code", aesData);
+        //String result = postContent(url, formEntity);
+        //System.out.println("===post====result:" + result);
     }
 
     static {
